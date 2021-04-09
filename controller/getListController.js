@@ -2,7 +2,7 @@ const axios = require('axios')
 
 module.exports = {
   getList: async (req, res) => {
-    await axios.get('https://api.github.com/search/repositories?q=created:%3E2021-03-01&sort=stars&order=desc?per_page=100')
+    await axios.get('https://api.github.com/search/repositories?q=created:%3E2021-03-01&sort=stars&order=desc&per_page=100')
       .then(result => {
         const getLanguage = []
         const list = []
@@ -15,8 +15,10 @@ module.exports = {
           result.data.items.forEach(item => {
             if (item.language === lang) repos.push(item.html_url)
           })
+          const count = repos.length
           list.push({
             languages: lang,
+            total: count,
             repositories: repos
           })
         }); res.send(list)
